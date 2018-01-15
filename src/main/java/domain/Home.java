@@ -11,6 +11,7 @@ public class Home {
     String name;
     List<Heater> heaters = new ArrayList<Heater>();
 
+
     @Id
     @GeneratedValue
     public Long getId() {

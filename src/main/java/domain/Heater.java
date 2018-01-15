@@ -10,6 +10,15 @@ public class Heater {
 
     Long id;
     String name;
+    String power;
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
 
     @Id
     @GeneratedValue
