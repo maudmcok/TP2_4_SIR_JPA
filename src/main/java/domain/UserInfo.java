@@ -1,6 +1,7 @@
 package domain;
 
 import jdk.nashorn.internal.ir.RuntimeNode;
+import jpa.MyServlet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,7 +29,7 @@ public class UserInfo extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response)
             throws ServletException, IOException {
-        tx.begin();
+
         try {
         createPerson(request.getParameter("name"),request.getParameter("firstname"),request.getParameter("age"));
         response.setContentType("text/html");
@@ -51,15 +52,12 @@ public class UserInfo extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        tx.commit();
 
-        manager.close();
-        factory.close();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        tx.begin();
+
         try {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
@@ -73,14 +71,11 @@ public class UserInfo extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        tx.commit();
 
-        manager.close();
-        factory.close();
     }
 
     public  void createPerson(String name,String firstname, String age){
-
+        tx.begin();
 
             Person p =  new Person();
             p.setName(name);
@@ -89,11 +84,15 @@ public class UserInfo extends HttpServlet {
             manager.persist(p);
 
 
+        tx.commit();
 
+        //manager.close();
+       // factory.close();
     }
 
     public void outPersonList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+        tx.begin();
             List<Person> resultList = manager.createQuery("Select a From Person a", Person.class).getResultList();
             System.out.println("List of Person:" + resultList.size());
 
@@ -107,7 +106,10 @@ public class UserInfo extends HttpServlet {
             }
 
             out.println( "</table> " ) ;
+        tx.commit();
 
+       // manager.close();
+     //   factory.close();
 
     }
 }

@@ -31,4 +31,3 @@ public class SampleWebService {
         return h;
     }
 }
-
